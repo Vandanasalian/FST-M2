@@ -15,22 +15,15 @@ import static org.hamcrest.CoreMatchers.equalTo;
 public class Activity2 {
 
     final static String ROOT_URI = "https://petstore.swagger.io/v2/user";
-
     @Test(priority=1)
     public void addNewUserFromFile() throws IOException {
-
         FileInputStream inputJSON = new FileInputStream("src/test/java/activities/userinfo.json");
-
         String reqBody = new String(inputJSON.readAllBytes());
-
         Response response =
-                given().contentType(ContentType.JSON) // Set headers
-                        .body(reqBody) // Pass request body from file
-                        .when().post(ROOT_URI); // Send POST request
-
+                given().contentType(ContentType.JSON)
+                        .body(reqBody)
+                        .when().post(ROOT_URI);
         inputJSON.close();
-
-        // Assertion
         response.then().body("code", equalTo(200));
         response.then().body("message", equalTo("9901"));
     }
@@ -42,16 +35,13 @@ public class Activity2 {
 
         Response response =
                 given().contentType(ContentType.JSON) // Set headers
-                        .pathParam("username", "vandanasalian") // Pass request body from file
-                        .when().get(ROOT_URI + "/{username}"); // Send POST request
-
-
+                        .pathParam("username", "vandanasalian")
+                        .when().get(ROOT_URI + "/{username}");
         String resBody = response.getBody().asPrettyString();
 
         try {
 
             outputJSON.createNewFile();
-
             FileWriter writer = new FileWriter(outputJSON.getPath());
             writer.write(resBody);
             writer.close();
@@ -73,8 +63,8 @@ public class Activity2 {
     public void deleteUser() throws IOException {
         Response response =
                 given().contentType(ContentType.JSON) // Set headers
-                        .pathParam("username", "vandanasalian") // Add path parameter
-                        .when().delete(ROOT_URI + "/{username}"); // Send POST request
+                        .pathParam("username", "vandanasalian")
+                        .when().delete(ROOT_URI + "/{username}");
 
 
         response.then().body("code", equalTo(200));
